@@ -1,4 +1,5 @@
 import pymysql
+import datetime
 import os
 
 #  Get username from workspace
@@ -11,12 +12,12 @@ connection = pymysql.connect(host='localhost',
                                 db ='Chinook')
 
 try:
-    #R  un a query
-    with connection.cursor() as cursor:
-        sql = "Select * from Artist;"
-        cursor.execute(sql)
-        result=cursor.fetchall()
-        print(result)
+    #  Run a query
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        cursor.execute("DELETE FROM Friends WHERE name = 'Lyle'") #  Cursor is obj to ex queries
+        connection.commit()
+        
 finally:
     #  Close the connection, regardless of success
     connection.close
+    
